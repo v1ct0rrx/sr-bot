@@ -11,7 +11,7 @@
 	</parent>
 	<groupId>com.vvelazquez</groupId>
 	<artifactId>sr-bot</artifactId>
-	<version>1.0.0</version>
+	<version>1.0.1</version>
 	<name>sr-bot</name>
 	<description>Bot para la quicena barengio</description>
 	<properties>

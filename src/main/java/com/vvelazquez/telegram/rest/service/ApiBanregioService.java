@@ -32,9 +32,6 @@ public class ApiBanregioService {
 	@Value("${api.banregio.cuenta}")
 	private Long cuentaId;
 	
-	@Value("${sr-bot.host}")
-	private String hostSrBot;
-	
 	@Autowired
 	private ApiBanregioRepository apiBanregioRepository;
 
