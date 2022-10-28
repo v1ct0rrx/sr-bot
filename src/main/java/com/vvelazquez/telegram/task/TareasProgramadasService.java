@@ -1,10 +1,8 @@
 package com.vvelazquez.telegram.task;
 
 import java.io.IOException;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -53,16 +51,9 @@ public class TareasProgramadasService {
 		log.info("Arrancamos notificacion a las {}", Constantes.DATE_FORMAT.format(new Date()));
 
 		ParametroGeneral parametroGeneral = parametrosGeneralesService.obtener(1L).get();
-		Calendar calendar = Calendar.getInstance(TimeZone.getTimeZone("America/Monterrey"));
-		calendar.set(Calendar.HOUR_OF_DAY, 0);
-		calendar.set(Calendar.MINUTE, 0);
-		calendar.set(Calendar.SECOND, 0);
-		calendar.set(Calendar.MILLISECOND, 0);
-		Date currentDate = calendar.getTime();
 
 		Movimientos movimientos = null;
-		if (parametroGeneral.isEnvioNotificacion()
-				&& parametroGeneral.getFechaEjecucion().compareTo(currentDate) == 0) {
+		if (parametroGeneral.isEnvioNotificacion()) {
 			movimientos = apiBanregioService.obtenerMovimientos();
 		} else {
 			CuentasModel cuentasModel = apiBanregioService.obtenerCuentas();
@@ -73,6 +64,8 @@ public class TareasProgramadasService {
 				&& !movimientos.getTransacciones().isEmpty()) {
 
 			List<Transaccion> transacciones = movimientos.getTransacciones();
+			
+			log.info(transacciones);
 
 			Long pagosConReferencia = transacciones.stream().filter(tr -> Constantes.ABONO.equals(tr.getNaturaleza()))
 					.filter(tr -> Constantes.REFERENCIA.equals(tr.getReferencia())).count();
@@ -117,7 +110,7 @@ public class TareasProgramadasService {
 
 	}
 
-	@Scheduled(cron = "0 */20 * * * ?")
+	@Scheduled(cron = "0 */5 * * * ?")
 	public void notificacionesGenerales() {
 		log.info("Notificaciones generales a las {}", Constantes.DATE_FORMAT.format(new Date()));
 

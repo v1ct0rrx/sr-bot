@@ -52,7 +52,7 @@ public class ApiBanregioService {
 		TokenModel tokenAcceso = this.obtenerTokenSesion(parametroGeneralesService.obtener(1L).get());
 		parametroGeneralesService.actualizarToken(new ParametroGeneral(1L, tokenAcceso.getToken(), tokenAcceso.getTokenRefresco()));
 		String fecha = utilidades.obtenerFechaConFormato(Calendar.getInstance().getTime(), Constantes.DATE_FORMAT_01);
-		log.info("Buscando movimientos");
+		log.info("Buscando movimientos con fecha {}", fecha);
 		return apiBanregioRepository.obtenerMovimientos(String.format("Bearer %s", tokenAcceso.getToken()), MediaType.APPLICATION_JSON_VALUE, cuentaId, fecha, fecha);
 	}
 
